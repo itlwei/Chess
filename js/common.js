@@ -1,4 +1,8 @@
-/*! Ò»Ò¶¹ÂÖÛ | qq:28701884 | »¶Ó­Ö¸½Ì */
+/**
+ * china Chess - in html5
+ * @ author itlwei@163.com
+ * @ QQ 28701884
+ */
 
 var com = com||{};
 
