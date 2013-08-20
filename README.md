@@ -5,7 +5,7 @@
 联系：itlwei@163.com  QQ:28701884<br>
 Demo：http://www.jnzo.com/chess/
 
-中国象棋 - in html5是一款使用html5 canvas的开源小游戏，不依赖任何类库，全部原生Javascript，望广大业内同行多多指正交流，共同完善。
+中国象棋 - in html5是一款使用html5 canvas开发的开源小游戏，不依赖任何类库，全部原生Javascript，欢迎广大业内同行多多交流指正，共同完善。
 
 ##特点
 
