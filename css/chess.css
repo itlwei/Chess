@@ -1,0 +1,23 @@
+/**
+ * ChinaChess - in html5
+ * http://www.jnzo.com/chess/
+ * @ author Ò»Ò¶¹ÂÖÛ
+ * @ mail itlwei@163.com
+ * @ QQ 28701884
+ */
+
+@charset "gb2312";
+body{  font-size: 12px; line-height: 150%; }
+.box { margin:0 auto; width:460px; position: relative; }
+.chess_left {float:left; text-align:center }
+.chess_right {  float:left; display:none}
+.move_info {  float:left; margin-top:20px}
+
+.bill_box{ height: 320px; width: 80px; overflow:auto;}
+.bill_box li { cursor:pointer; text-align:left}
+.bill_box li:hover { cursor:pointer; background: #C6A577; }
+.bill_box li:active { cursor:pointer; background: #fff; }
+#billList{ margin-top:20px}
+.bn_box{display:none}
+.download{ margin-top:30px}
+
