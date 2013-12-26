@@ -255,7 +255,8 @@ com.getData = function (url,fun){
 				//return XMLHttpRequestObject.responseText;
 			}
 		}
-	XMLHttpRequestObject.send(null);
+	//NS_ERROR_DOM_BAD_URI: Access to restricted URI denied
+	//XMLHttpRequestObject.send(null);
 	}
 }
 
