@@ -239,15 +239,18 @@ com.arr2Clone = function (arr){
 }
 
 //ajax载入数据
-com.getData = function (url,fun){
+com.getData = function (url,fun,method,data){
 	var XMLHttpRequestObject=false;
 	if(window.XMLHttpRequest){
 		XMLHttpRequestObject=new XMLHttpRequest();
 	}else if(window.ActiveXObject){
 	XMLHttpRequestObject=new ActiveXObject("Microsoft.XMLHTTP");
 	}
-	if(XMLHttpRequestObject){
-		XMLHttpRequestObject.open("GET",url);
+	if(typeof XMLHttpRequestObject == 'object' && XMLHttpRequestObject != null){
+		if(typeof method == 'undefined'){
+	 		  method = "GET";
+		}
+		XMLHttpRequestObject.open(method,url);
 		XMLHttpRequestObject.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 		XMLHttpRequestObject.onreadystatechange=function (){
 			if(XMLHttpRequestObject.readyState==4 && XMLHttpRequestObject.status==200){
@@ -255,7 +258,19 @@ com.getData = function (url,fun){
 				//return XMLHttpRequestObject.responseText;
 			}
 		}
-	XMLHttpRequestObject.send(null);
+	
+	//NS_ERROR_DOM_BAD_URI: Access to restricted URI denied
+	try{
+		if(typeof data == "undefined"){
+		      data = null;
+		}
+		XMLHttpRequestObject.send(data);
+		
+	}catch(e){
+		if(e.name == "NS_ERROR_DOM_BAD_URI"){
+		    alert("你打开的也许是本地文件，Ajax请求失败!游戏也许运行会不正常,建议上传至web服务器上运行。");
+		}
+	}
 	}
 }
 
