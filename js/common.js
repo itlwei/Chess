@@ -1,17 +1,10 @@
-/**
- * ChinaChess - in html5
- * http://www.jnzo.com/chess/
- * @ author 一叶孤舟
- * @ mail itlwei@163.com
- * @ QQ 28701884
- */
-
+/*! 一叶孤舟 | qq:28701884 | 欢迎指教 */
 
 var com = com||{};
 
 com.init = function (stype){
 	
-	com.nowStype= stype || com.getCookie("stype") ||"stype1";
+	com.nowStype= stype || com.getCookie("stype") ||"stype2";
 	var stype = com.stype[com.nowStype];
 	com.width			=	stype.width;		//画布宽度
 	com.height			=	stype.height; 		//画布高度
@@ -21,7 +14,7 @@ com.init = function (stype){
 	com.pointStartY		=	stype.pointStartY;	//第一个着点Y坐标;
 	com.page			=	stype.page;			//图片目录
 	
-	com.get("box").style.width = com.width+130+"px";
+	//com.get("box").style.width = com.width+130+"px";
 	
 	com.canvas			=	document.getElementById("chess"); //画布
 	com.ct				=	com.canvas.getContext("2d") ; 
@@ -29,7 +22,8 @@ com.init = function (stype){
 	com.canvas.height	=	com.height;
 	
 	com.childList		=	com.childList||[];
-	
+
+
 	com.loadImages(com.page);		//载入图片/图片目录
 	//z(com.initMap.join())
 }
@@ -46,13 +40,22 @@ com.stype = {
 		page:"stype_1"	//图片目录
 	},
 	stype2:{
+		width:523,		//画布宽度
+		height:580, 		//画布高度
+		spaceX:57,		//着点X跨度
+		spaceY:57,		//着点Y跨度
+		pointStartX:3,		//第一个着点X坐标;
+		pointStartY:5,		//第一个着点Y坐标;
+		page:"stype_2"	//图片目录
+	},
+	stype3:{
 		width:530,		//画布宽度
 		height:567, 		//画布高度
 		spaceX:57,		//着点X跨度
 		spaceY:57,		//着点Y跨度
 		pointStartX:-2,		//第一个着点X坐标;
 		pointStartY:0,		//第一个着点Y坐标;
-		page:"stype_2"	//图片目录
+		page:"stype_3"	//图片目录
 	}		
 }
 //获取ID
@@ -68,47 +71,95 @@ window.onload = function(){
 	
 	com.childList=[com.bg,com.dot,com.pane];	
 	com.mans	 ={};		//棋子集合
-	com.createMans(com.initMap)		//生成棋子	
-	com.bg.show();
-	com.get("bnBox").style.display = "block";
+	//com.createMans(com.initMap)		//生成棋子	
+	//com.bg.show();
 	//play.init();
-	com.get("billBn").addEventListener("click", function(e) {
-		if (confirm("是否结束对局，开始棋局研究？")){
-			com.init();
-			com.get("chessRight").style.display = "block";
-			com.get("moveInfo").style.display = "none";
-			bill.init();
-		}
+	
+	//开始对弈
+	com.get("playBtn").addEventListener("click", function(e) {
+		play.isPlay=true ;	
+		var depth = parseInt(getRadioValue("depth"), 10) || 3;
+
+		play.init( depth );
+		com.get("chessBox").style.display = "block";
+		com.get("menuBox").style.display = "none";
 	})
-	com.get("superPlay").addEventListener("click", function(e) {
-		if (confirm("确认开始大师级对弈？")){
-			play.isPlay=true ;	
-			com.get("chessRight").style.display = "none";
-			com.get("moveInfo").style.display = "block";
-			com.get("moveInfo").innerHTML="";
-			play.depth = 4;
-			play.init();
-		}
+	
+	//开始挑战
+	com.get("clasliBtn").addEventListener("click", function(e) {
+		play.isPlay=true ;	
+		var clasli = parseInt(getRadioValue("clasli"), 10) || 0;
+		play.init( 4, com.clasli[clasli].map );
+		com.get("chessBox").style.display = "block";
+		com.get("menuBox").style.display = "none";
 	})
-	com.get("tyroPlay").addEventListener("click", function(e) {
-		if (confirm("确认开始新手级对弈？")){
+	
+	
+	
+	
+	// 悔棋
+	com.get("regretBtn").addEventListener("click", function(e) {
+		play.regret();
+	})
+	
+	//返回首页
+	com.get("gohomeBtn").addEventListener("click", function(e) {
+		com.get("chessBox").style.display = "none";
+		com.get("menuBox").style.display = "block";
+		com.get("indexBox").style.display = "block";
+		com.get("menuQj").style.display = "none";
+		com.get("menuDy").style.display = "none";
+	})
+	
+	//返回
+	com.get("menuFh").addEventListener("click", function(e) {
+		com.get("indexBox").style.display = "block";
+		com.get("menuQj").style.display = "none";
+		com.get("menuDy").style.display = "none";
+	})
+	
+	//返回关闭
+	com.get("menuGb").addEventListener("click", function(e) {
+		com.get("indexBox").style.display = "block";
+		com.get("menuQj").style.display = "none";
+		com.get("menuDy").style.display = "none";
+	})
+	
+	//重新开始棋局
+	com.get("restartBtn").addEventListener("click", function(e) {
+		if (confirm("是否确定要重新开始？")){
 			play.isPlay=true ;	
-			com.get("chessRight").style.display = "none";
-			com.get("moveInfo").style.display = "block";
-			com.get("moveInfo").innerHTML="";
-			play.depth = 3;
-			play.init();
+			play.init( play.depth,play.nowMap );
 		}
 	})
 	
-	com.get("stypeBn").addEventListener("click", function(e) {
+	
+	
+	
+	//人机对弈
+	com.get("indexDy").addEventListener("click", function(e) {
+		com.get("indexBox").style.display = "none";
+		com.get("menuQj").style.display = "none";
+		com.get("menuDy").style.display = "block";
+	})
+	
+	//挑战棋局
+	com.get("indexQj").addEventListener("click", function(e) {
+		com.get("indexBox").style.display = "none";
+		com.get("menuQj").style.display = "block";
+		com.get("menuDy").style.display = "none";
+	})
+
+	//换肤
+	com.get("stypeBtn").addEventListener("click", function(e) {
 		var stype =com.nowStype;
-		if (stype=="stype1") stype="stype2";
+		if (stype=="stype3") stype="stype2";
 		else if (stype=="stype2") stype="stype1";
+		else if (stype=="stype1") stype="stype3";
 		com.init(stype);
 		com.show();
-		play.depth = 4;
-		play.init();
+		//play.depth = 4;
+		//play.init();
 		document.cookie="stype=" +stype;
 		clearInterval(timer);
 		var i=0;
@@ -118,14 +169,21 @@ window.onload = function(){
 		},2000);
 	})
 	
+	//获取单选框选择的值
+	function getRadioValue (name){
+		var obj = document.getElementsByName(name);
+		//var obj = document.getElementsByTagName("input");
+		for(var i=0; i<obj.length; i ++){
+			if(obj[i].checked){
+				return obj[i].value;
+			}
+		}
+	}
+	
 	com.getData("js/gambit.all.js",
 		function(data){
 		com.gambit=data.split(" ");
 		AI.historyBill = com.gambit;
-	})
-	com.getData("js/store.js",
-		function(data){
-		com.store=data.split(" ");
 	})
 }
 
@@ -145,6 +203,7 @@ com.loadImages = function(stype){
 		com[i] = {};
 		com[i].img = new Image();
 		com[i].img.src = "img/"+stype+"/"+ com.args[i].img +".png";
+		//com[i].img.src = "img/"+stype+"/r_m.png";
 	}
 	
 	//棋子外框
@@ -202,6 +261,7 @@ com.alert = function (obj,f,n){
 
 //com.alert的简写，考虑z变量名最不常用
 var z = com.alert;
+var l = console.log;
 
 //获取元素距离页面左侧的距离
 com.getDomXY = function (dom){
@@ -324,34 +384,6 @@ com.initMap = [
 	[    ,'p0',    ,    ,    ,    ,    ,'p1',    ],
 	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
 	['c0','m0','x0','s0','j0','s1','x1','m1','c1']
-];
-
-
-
-com.initMap1 = [
-	[    ,    ,    ,, "J0"   ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,"c0",    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,	  ,    ,    ,    ],
-	[    ,    ,    ,    ,"s0",    ,    ,"C0",    ],
-	[    ,    ,    ,"s1",    ,"j0",    ,    ,    ]
-];
-
-com.initMap1 = [
-	[    ,    ,    ,, "J0"   ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    , ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,"z0",    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,	  ,    ,    ,    ],
-	[    ,    ,    ,    ,    ,    ,    ,    ,    ],
-	[    ,    ,    , "j0"   ,,    ,    ,    ]
 ];
 
 com.keys = {

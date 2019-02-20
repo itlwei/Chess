@@ -1,32 +1,40 @@
-/**
- * ChinaChess - in html5
- * http://www.jnzo.com/chess/
- * @ author 一叶孤舟
- * @ mail itlwei@163.com
- * @ QQ 28701884
- */
+/*! 一叶孤舟 | qq:28701884 | 欢迎指教 */
 
 var play = play||{};
 
-play.init = function (){
-	
+play.init = function (depth, map){
+	var map = map || com.initMap;
+	var depth = depth || 3
 	play.my				=	1;				//玩家方
-	play.map 			=	com.arr2Clone (com.initMap);		//初始化棋盘
+	play.nowMap			=	map;
+	play.map 			=	com.arr2Clone ( map );		//初始化棋盘
 	play.nowManKey		=	false;			//现在要操作的棋子
 	play.pace 			=	[];				//记录每一步
 	play.isPlay 		=	true ;			//是否能走棋
-	play.mans 			=	com.mans;
+	
 	play.bylaw 			= 	com.bylaw;
 	play.show 			= 	com.show;
 	play.showPane 		= 	com.showPane;
 	play.isOffensive	=	true;			//是否先手
-	play.depth			=	play.depth || 3;				//搜索深度
-	
-	play.isFoul			=	false;	//是否犯规长将
-	
-	
-	
+	play.depth			=	depth;			//搜索深度
+	play.isFoul			=	false;			//是否犯规长将
 	com.pane.isShow		=	 false;			//隐藏方块
+	
+	//清除所有旗子
+	play.mans 			=	com.mans	= {};
+	
+	//这么搞有点2，以后说不定出啥问题，先放着记着以后改
+	com.childList.length = 3
+	/*
+	l(com.childList)
+	for (var i=0; i<com.childList.length ; i++){
+		var o = com.childList[i];
+		if (o.pater) com.childList.splice(i, 1)
+	}
+	l(com.childList)
+	*/
+	com.createMans( map )		//生成棋子	
+	com.bg.show();
 	
 	//初始化棋子
 	for (var i=0; i<play.map.length; i++){
@@ -66,9 +74,6 @@ play.init = function (){
 	*/
 	
 	
-	com.get("regretBn").addEventListener("click", function(e) {
-		play.regret();
-	})
 	
 	/*
 	var initTime = new Date().getTime();
@@ -178,7 +183,7 @@ play.clickMan = function (key,x,y){
 			com.dot.dots = [];
 			com.show()
 			com.get("clickAudio").play();
-			setTimeout("play.AIPlay()",500);
+			setTimeout(play.AIPlay,500);
 			if (key == "j0") play.showWin (-1);
 			if (key == "J0") play.showWin (1);
 		}
@@ -186,7 +191,7 @@ play.clickMan = function (key,x,y){
 	}else{
 		if (man.my===1){
 			if (com.mans[play.nowManKey]) com.mans[play.nowManKey].alpha = 1 ;
-			man.alpha = 0.6;
+			man.alpha = 0.8;
 			com.pane.isShow = false;
 			play.nowManKey = key;
 			com.mans[key].ps = com.mans[key].bl(); //获得所有能着点
@@ -217,7 +222,7 @@ play.clickPoint = function (x,y){
 			com.dot.dots = [];
 			com.show();
 			com.get("clickAudio").play();
-			setTimeout("play.AIPlay()",500);
+			setTimeout(play.AIPlay,500);
 		}else{
 			//alert("不能这么走哦！")	
 		}
