@@ -1,12 +1,18 @@
-/*! Ò»Ò¶¹ÂÖÛ | qq:28701884 | »¶Ó­Ö¸½Ì */
+/**
+ * ChinaChess - in html5
+ * http://www.jnzo.com/chess/
+ * @ author ä¸€å¶å­¤èˆŸ
+ * @ mail itlwei@163.com
+ * @ QQ 28701884
+ */
 
 var bill = bill || {};
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 bill.init = function (){
 	if (com.store){
 		clearInterval(bill.timer);
-		bill.setBillList(com.arr2Clone(com.initMap)); //Ğ´ÈëÆåÆ×ÁĞ±í
+		bill.setBillList(com.arr2Clone(com.initMap)); //å†™å…¥æ£‹è°±åˆ—è¡¨
 		play.isPlay=false;	
 		com.show();
 	}else {
@@ -15,12 +21,12 @@ bill.init = function (){
 }
 
 
-//°ÑËùÓĞÆåÆ×Ğ´ÈëÆåÆ×ÁĞ±í
+//æŠŠæ‰€æœ‰æ£‹è°±å†™å…¥æ£‹è°±åˆ—è¡¨
 bill.setBillList = function (map){
 	var list=com.get("billList")
 	for (var i=0; i < com.store.length ; i++){
 		var option = document.createElement('option');
-		 option.text='ÆåÆ×'+(i+1);
+		 option.text='æ£‹è°±'+(i+1);
 		 option.value=i;
 		list.add(option , null);
 	}
@@ -32,7 +38,7 @@ bill.setBillList = function (map){
 }
 
 
-//ÆåÆ×·ÖÎö Ğ´Èë
+//æ£‹è°±åˆ†æ å†™å…¥
 bill.setMove = function (bl,inx,map){
 	var map = com.arr2Clone(map);
 	for (var i=0; i<map.length; i++){
@@ -69,7 +75,7 @@ bill.setMove = function (bl,inx,map){
 	return map;
 }
 
-//Ğ´ÈëÆåÆ×
+//å†™å…¥æ£‹è°±
 bill.setBox = function (bl,initMap){
 	var map = com.arr2Clone(initMap);
 	var bl= bl.split("");
