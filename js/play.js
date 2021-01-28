@@ -33,7 +33,7 @@ play.init = function (depth, map){
 	}
 	l(com.childList)
 	*/
-	com.createMans( map )		//生成棋子	
+	com.createMans( map )		//生成棋子
 	com.bg.show();
 	
 	//初始化棋子
@@ -60,14 +60,14 @@ play.init = function (depth, map){
 	/*
 	com.get("offensivePlay").addEventListener("click", function(e) {
 		play.isOffensive=true;
-		play.isPlay=true ;	
+		play.isPlay=true ;
 		com.get("chessRight").style.display = "none";
 		play.init();
 	})
 	
 	com.get("defensivePlay").addEventListener("click", function(e) {
 		play.isOffensive=false;
-		play.isPlay=true ;	
+		play.isPlay=true ;
 		com.get("chessRight").style.display = "none";
 		play.init();
 	})
@@ -127,12 +127,12 @@ play.regret = function (){
 		map[newY][newX] = key;
 		delete map[y][x];
 		if (i==pace.length-1){
-			com.showPane(newX ,newY,x,y)	
+			com.showPane(newX ,newY,x,y)
 		}
 		//} catch (e){
 		//	com.show()
 		//	z([key,p,pace,map])
-			
+		
 		//	}
 	}
 	play.map = map;
@@ -153,9 +153,9 @@ play.clickCanvas = function (e){
 	var y = point.y;
 	
 	if (key){
-		play.clickMan(key,x,y);	
+		play.clickMan(key,x,y);
 	}else {
-		play.clickPoint(x,y);	
+		play.clickPoint(x,y);
 	}
 	play.isFoul = play.checkFoul();//检测是不是长将
 }
@@ -224,7 +224,7 @@ play.clickPoint = function (x,y){
 			com.get("clickAudio").play();
 			setTimeout(play.AIPlay,500);
 		}else{
-			//alert("不能这么走哦！")	
+			//alert("不能这么走哦！")
 		}
 	}
 	
@@ -245,9 +245,9 @@ play.AIPlay = function (){
 	
 	var key=play.map[pace[3]][pace[2]];
 	if (key){
-		play.AIclickMan(key,pace[2],pace[3]);	
+		play.AIclickMan(key,pace[2],pace[3]);
 	}else {
-		play.AIclickPoint(pace[2],pace[3]);	
+		play.AIclickPoint(pace[2],pace[3]);
 	}
 	com.get("clickAudio").play();
 	
@@ -291,7 +291,6 @@ play.AIclickPoint = function (x,y){
 		play.map[y][x] = key;
 		
 		com.showPane(man.x,man.y,x,y)
-		
 	
 		man.x = x;
 		man.y = y;

@@ -14,10 +14,8 @@ com.init = function (stype){
 	com.pointStartY		=	stype.pointStartY;	//第一个着点Y坐标;
 	com.page			=	stype.page;			//图片目录
 	
-	//com.get("box").style.width = com.width+130+"px";
-	
 	com.canvas			=	document.getElementById("chess"); //画布
-	com.ct				=	com.canvas.getContext("2d") ; 
+	com.ct				=	com.canvas.getContext("2d") ;
 	com.canvas.width	=	com.width;
 	com.canvas.height	=	com.height;
 	
@@ -56,28 +54,28 @@ com.stype = {
 		pointStartX:-2,		//第一个着点X坐标;
 		pointStartY:0,		//第一个着点Y坐标;
 		page:"stype_3"	//图片目录
-	}		
+	}
 }
 //获取ID
 com.get = function (id){
 	return document.getElementById(id)
 }
 
-window.onload = function(){  
+window.onload = function(){
 	com.bg=new com.class.Bg();
 	com.dot = new com.class.Dot();
 	com.pane=new com.class.Pane();
 	com.pane.isShow=false;
 	
-	com.childList=[com.bg,com.dot,com.pane];	
+	com.childList=[com.bg,com.dot,com.pane];
 	com.mans	 ={};		//棋子集合
-	//com.createMans(com.initMap)		//生成棋子	
+	//com.createMans(com.initMap)		//生成棋子
 	//com.bg.show();
 	//play.init();
 	
 	//开始对弈
 	com.get("playBtn").addEventListener("click", function(e) {
-		play.isPlay=true ;	
+		play.isPlay=true ;
 		var depth = parseInt(getRadioValue("depth"), 10) || 3;
 
 		play.init( depth );
@@ -87,15 +85,12 @@ window.onload = function(){
 	
 	//开始挑战
 	com.get("clasliBtn").addEventListener("click", function(e) {
-		play.isPlay=true ;	
+		play.isPlay=true ;
 		var clasli = parseInt(getRadioValue("clasli"), 10) || 0;
 		play.init( 4, com.clasli[clasli].map );
 		com.get("chessBox").style.display = "block";
 		com.get("menuBox").style.display = "none";
 	})
-	
-	
-	
 	
 	// 悔棋
 	com.get("regretBtn").addEventListener("click", function(e) {
@@ -128,13 +123,10 @@ window.onload = function(){
 	//重新开始棋局
 	com.get("restartBtn").addEventListener("click", function(e) {
 		if (confirm("是否确定要重新开始？")){
-			play.isPlay=true ;	
+			play.isPlay=true ;
 			play.init( play.depth,play.nowMap );
 		}
 	})
-	
-	
-	
 	
 	//人机对弈
 	com.get("indexDy").addEventListener("click", function(e) {
@@ -216,7 +208,7 @@ com.loadImages = function(stype){
 
 //显示列表
 com.show = function (){
-	com.ct.clearRect(0, 0, com.width, com.height);  
+	com.ct.clearRect(0, 0, com.width, com.height);
 	for (var i=0; i<com.childList.length ; i++){
 		com.childList[i].show();
 	}
@@ -280,19 +272,19 @@ com.getDomXY = function (dom){
 com.getCookie = function(name){
 	if (document.cookie.length>0){
 		start=document.cookie.indexOf(name + "=")
-		if (start!=-1){ 
-			start=start + name.length+1 
+		if (start!=-1){
+			start=start + name.length+1
 			end=document.cookie.indexOf(";",start)
 		if (end==-1) end=document.cookie.length
 			return unescape(document.cookie.substring(start,end))
-		} 
+		}
 	}
 	return false;
 }
 //二维数组克隆
 com.arr2Clone = function (arr){
 	var newArr=[];
-	for (var i=0; i<arr.length ; i++){	
+	for (var i=0; i<arr.length ; i++){
 		newArr[i] = arr[i].slice();
 	}
 	return newArr;
@@ -327,7 +319,7 @@ com.createMove = function (map,x,y,newX,newY){
 	map[newY][newX] = map[y][x];
 	delete map[y][x];
 	if (man.my===1){
-		var mumTo=["一","二","三","四","五","六","七","八","九","十"];	
+		var mumTo=["一","二","三","四","五","六","七","八","九","十"];
 		newX=8-newX;
 		h+= mumTo[8-x];
 		if (newY > y) {
@@ -415,7 +407,7 @@ com.bylaw.c = function (x,y,map,my){
 			if (com.mans[map[y][i]].my!=my) d.push([i,y]);
 			break
 		}else{
-			d.push([i,y])	
+			d.push([i,y])
 		}
 	}
 	//右侧检索
@@ -424,7 +416,7 @@ com.bylaw.c = function (x,y,map,my){
 			if (com.mans[map[y][i]].my!=my) d.push([i,y]);
 			break
 		}else{
-			d.push([i,y])	
+			d.push([i,y])
 		}
 	}
 	//上检索
@@ -433,7 +425,7 @@ com.bylaw.c = function (x,y,map,my){
 			if (com.mans[map[i][x]].my!=my) d.push([x,i]);
 			break
 		}else{
-			d.push([x,i])	
+			d.push([x,i])
 		}
 	}
 	//下检索
@@ -442,7 +434,7 @@ com.bylaw.c = function (x,y,map,my){
 			if (com.mans[map[i][x]].my!=my) d.push([x,i]);
 			break
 		}else{
-			d.push([x,i])	
+			d.push([x,i])
 		}
 	}
 	return d;
@@ -519,7 +511,7 @@ com.bylaw.s = function (x,y,map,my){
 		if ( y-1>= 0 && x-1>= 3 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
 	}
 	return d;
-		
+	
 }
 
 //将
@@ -570,10 +562,10 @@ com.bylaw.p = function (x,y,map,my){
 				continue;
 			}else{
 				if (com.mans[map[y][i]].my!=my) d.push([i,y]);
-				break	
+				break
 			}
 		}else{
-			if(n==0) d.push([i,y])	
+			if(n==0) d.push([i,y])
 		}
 	}
 	//右侧检索
@@ -585,10 +577,10 @@ com.bylaw.p = function (x,y,map,my){
 				continue;
 			}else{
 				if (com.mans[map[y][i]].my!=my) d.push([i,y]);
-				break	
+				break
 			}
 		}else{
-			if(n==0) d.push([i,y])	
+			if(n==0) d.push([i,y])
 		}
 	}
 	//上检索
@@ -600,10 +592,10 @@ com.bylaw.p = function (x,y,map,my){
 				continue;
 			}else{
 				if (com.mans[map[i][x]].my!=my) d.push([x,i]);
-				break	
+				break
 			}
 		}else{
-			if(n==0) d.push([x,i])	
+			if(n==0) d.push([x,i])
 		}
 	}
 	//下检索
@@ -615,10 +607,10 @@ com.bylaw.p = function (x,y,map,my){
 				continue;
 			}else{
 				if (com.mans[map[i][x]].my!=my) d.push([x,i]);
-				break	
+				break
 			}
 		}else{
-			if(n==0) d.push([x,i])	
+			if(n==0) d.push([x,i])
 		}
 	}
 	return d;
@@ -689,7 +681,7 @@ com.value = {
 		[0, 0,20, 0, 0, 0,20, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[18,0, 0, 0,23, 0, 0, 0,18],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0], 
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0,20, 0, 0, 0,20, 0, 0]
 	],
 	
@@ -704,14 +696,14 @@ com.value = {
 		[0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0,20, 0,20, 0, 0, 0],
-		[0, 0, 0, 0,23, 0, 0, 0, 0], 
+		[0, 0, 0, 0,23, 0, 0, 0, 0],
 		[0, 0, 0,20, 0,20, 0, 0, 0]
 	],
 	
 	//奖价值
 	j:[
 		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0],
-		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0], 
+		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0],
 		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -719,7 +711,7 @@ com.value = {
 		[0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0],
 		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0],
-		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0], 
+		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0],
 		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0]
 	],
 	
@@ -730,7 +722,7 @@ com.value = {
 		[ 98,  98,  96, 92,  89, 92,  96,  98,  98],
 		[ 97,  97,  96, 91,  92, 91,  96,  97,  97],
 		[ 96,  99,  99, 98, 100, 98,  99,  99,  96],
-		[ 96,  96,  96, 96, 100, 96,  96,  96,  96], 
+		[ 96,  96,  96, 96, 100, 96,  96,  96,  96],
 		
 		[ 95,  96,  99, 96, 100, 96,  99,  96,  95],
 		[ 96,  96,  96, 96,  96, 96,  96,  96,  96],
@@ -748,7 +740,7 @@ com.value = {
 		[14, 18, 20, 27, 29, 27, 20, 18, 14],
 		
 		[ 7,  0, 13,  0, 16,  0, 13,  0,  7],
-		[ 7,  0,  7,  0, 15,  0,  7,  0,  7], 
+		[ 7,  0,  7,  0, 15,  0,  7,  0,  7],
 		[ 0,  0,  0,  0,  0,  0,  0,  0,  0],
 		[ 0,  0,  0,  0,  0,  0,  0,  0,  0],
 		[ 0,  0,  0,  0,  0,  0,  0,  0,  0]
@@ -789,7 +781,7 @@ com.class = com.class || {} //类
 com.class.Man = function (key, x, y){
 	this.pater = key.slice(0,1);
 	var o=com.args[this.pater]
-	this.x = x||0;   
+	this.x = x||0;
     this.y = y||0;
 	this.key = key ;
 	this.my = o.my;
@@ -804,7 +796,7 @@ com.class.Man = function (key, x, y){
 			com.ct.save();
 			com.ct.globalAlpha = this.alpha;
 			com.ct.drawImage(com[this.pater].img,com.spaceX * this.x + com.pointStartX , com.spaceY *  this.y +com.pointStartY);
-			com.ct.restore(); 
+			com.ct.restore();
 		}
 	}
 	
@@ -815,7 +807,7 @@ com.class.Man = function (key, x, y){
 }
 
 com.class.Bg = function (img, x, y){
-	this.x = x||0; 
+	this.x = x||0;
     this.y = y||0;
 	this.isShow = true;
 	
@@ -824,9 +816,9 @@ com.class.Bg = function (img, x, y){
 	}
 }
 com.class.Pane = function (img, x, y){
-	this.x = x||0; 
+	this.x = x||0;
     this.y = y||0;
-	this.newX = x||0; 
+	this.newX = x||0;
     this.newY = y||0;
 	this.isShow = true;
 	
@@ -839,7 +831,7 @@ com.class.Pane = function (img, x, y){
 }
 
 com.class.Dot = function (img, x, y){
-	this.x = x||0; 
+	this.x = x||0;
     this.y = y||0;
 	this.isShow = true;
 	this.dots=[]

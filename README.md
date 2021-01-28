@@ -15,6 +15,8 @@ Demo：https://itlwei.github.io/Chess/
 * 代码结构极其简洁明了，你可以轻易的阅读，修改成自己版本.
 
 ##Change Log
+### v1.5.1
+* 修复BUG
 
 ### v1.5.0
 * 大幅度修改UI，增加风格选择
