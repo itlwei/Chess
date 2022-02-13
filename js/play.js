@@ -1,7 +1,7 @@
 /*! 一叶孤舟 | qq:28701884 | 欢迎指教 */
 
 var play = play||{};
-
+var mapcopy;
 play.init = function (depth, map){
 	var map = map || com.initMap;
 	var depth = depth || 3
@@ -11,7 +11,7 @@ play.init = function (depth, map){
 	play.nowManKey		=	false;			//现在要操作的棋子
 	play.pace 			=	[];				//记录每一步
 	play.isPlay 		=	true ;			//是否能走棋
-	
+	mapcopy=map;
 	play.bylaw 			= 	com.bylaw;
 	play.show 			= 	com.show;
 	play.showPane 		= 	com.showPane;
@@ -95,7 +95,8 @@ play.init = function (depth, map){
 
 //悔棋
 play.regret = function (){
-	var map  = com.arr2Clone(com.initMap);
+	var map  = com.arr2Clone(mapcopy);
+	//var map  = com.arr2Clone(com.initMap);//此处为bug，未兼容残局
 	//初始化所有棋子
 	for (var i=0; i<map.length; i++){
 		for (var n=0; n<map[i].length; n++){
